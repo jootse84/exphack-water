@@ -54,40 +54,40 @@
 
 .checkbox-0-200 input[type="checkbox"]:checked + label::before {
   content: "✓";
-  background-color: #1a721b;
-  border-color: #1a721b; }
+  background-color: #00BFFF;
+  border-color: #00BFFF; }
 .checkbox-0-200 input[type="checkbox"]:checked + label::after {
   content: " ";
   color: #fff; }
 
 .checkbox-201-500 input[type="checkbox"]:checked + label::before {
   content: "✓";
-  background-color: #33ac28;
-  border-color: #33ac28; }
+  background-color: #0000FF;
+  border-color: #0000FF; }
 .checkbox-201-500 input[type="checkbox"]:checked + label::after {
   content: " ";
   color: #fff; }
 
 .checkbox-501-1000 input[type="checkbox"]:checked + label::before {
   content: "✓";
-  background-color: #6fd626;
-  border-color: #6fd626; }
+  background-color: #0000CD;
+  border-color: #0000CD; }
 .checkbox-501-1000 input[type="checkbox"]:checked + label::after {
   content: " ";
   color: #fff; }
 
 .checkbox-1001-2000 input[type="checkbox"]:checked + label::before {
   content: "✓";
-  background: #f8e71c;
-  border-color: #f8e71c; }
+  background: #00008B;
+  border-color: #00008B; }
 .checkbox-1001-2000 input[type="checkbox"]:checked + label::after {
   content: " ";
   color: #fff; }
 
 .checkbox-2001-6300 input[type="checkbox"]:checked + label::before {
   content: "✓";
-  background-color: #f5a623;
-  border-color: #f5a623; }
+  background-color: #141463;
+  border-color: #141463; }
 .checkbox-2001-6300 input[type="checkbox"]:checked + label::after {
   content: " ";
   color: #fff; }
