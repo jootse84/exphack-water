@@ -100,6 +100,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PROJECT_ROOT = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), ".."),
+)
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
