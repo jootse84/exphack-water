@@ -40,6 +40,7 @@ $(document).ready(function() {
     "2035": {},
     "2040": {}
   }
+  let firstTime = true;
 
   function switchLayer(layer) {
       var layerId = layer.target.id;
@@ -78,7 +79,7 @@ $(document).ready(function() {
         let population = parseInt(populations[year][geographicRegion])
         let h = population * 10
 
-        let value = totals[year][geographicRegion]
+        let value = parseInt(totals[year][geographicRegion])
         let color = 0
         if (value>=11.0 && value < 50.0) { color=1; }
         else if (value>=50.0 && value < 100.0) { color=2; }
@@ -159,29 +160,32 @@ $(document).ready(function() {
           }
       })
 
-      map.on('click', function (e) {
-          var features = map.queryRenderedFeatures(e.point, { layers: ['counties-extrusion'] });
+      if (firstTime) {
+        map.on('click', function (e) {
+            var features = map.queryRenderedFeatures(e.point, { layers: ['counties-extrusion'] });
 
-          if (!features.length) {
-              return;
-          }
+            if (!features.length) {
+                return;
+            }
 
-          var feature = features[0];
+            var feature = features[0];
 
-          // Populate the popup and set its coordinates
-          // based on the feature found.
-          var popup = new mapboxgl.Popup()
-              .setLngLat(map.unproject(e.point))
-              .setHTML(feature.properties.description)
-              .addTo(map);
-      });
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+            var popup = new mapboxgl.Popup()
+                .setLngLat(map.unproject(e.point))
+                .setHTML(feature.properties.description)
+                .addTo(map);
+        });
 
-      // Use the same approach as above to indicate that the symbols are clickable
-      // by changing the cursor style to 'pointer'.
-      map.on('mousemove', function (e) {
-          var features = map.queryRenderedFeatures(e.point, { layers: ['counties-extrusion'] });
-          map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-      });
+        // Use the same approach as above to indicate that the symbols are clickable
+        // by changing the cursor style to 'pointer'.
+        map.on('mousemove', function (e) {
+            var features = map.queryRenderedFeatures(e.point, { layers: ['counties-extrusion'] });
+            map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+        });
+        firstTime = false;
+      }
     });
   }
 
@@ -194,5 +198,12 @@ $(document).ready(function() {
       map.removeSource("countiesData")
       map.removeLayer("counties-extrusion")
       updateMapLayers(parseInt(year))
+  })
+
+  $('#animate').click(function (event) {
+    const years = ["1985", "1990", "1995", "2000", "2005", "2010", "2015", "2020", "2025", "2030", "2035", "2040"];
+    for(let i = 0; i < years.length; i++) {
+      $('[data-year='+years[i]+']').click()
+    }
   })
 })
