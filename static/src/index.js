@@ -3,9 +3,9 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoiam9vdHNlODQiLCJhIjoiY2lrandjOTFyMDh5bHUybTZsM
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v9',
-    zoom: 4.5,
+    zoom: 5,
     center: [-123.221680, 38.400480],
-    pitch: 40
+    pitch: 60
 });
 
 var layerList = document.getElementById('menu');
@@ -24,6 +24,10 @@ const colors = ['#1a721b', '#33ac28', '#6fd626', '#f8e71c', '#f5a623']
 const heights = [0, 5000, 7000, 20000, 50000]
 
 map.on('load', function () {
+  updateMapLayers()
+})
+
+function updateMapLayers () {
   $.getJSON("../static/json/jsoncounties-CA.min.json", function (json) {
 
     if (!json.features) {
@@ -34,7 +38,7 @@ map.on('load', function () {
     let county_features = []
 
     for (let i = 0; i < counties.length; i++) {
-      const { name, geometry } = counties[i]
+      const { name, geometry, geographicRegion } = counties[i]
       let rand = colors[Math.floor(Math.random() * colors.length)]
       let h = heights[Math.floor(Math.random() * heights.length)]
 
@@ -53,9 +57,10 @@ map.on('load', function () {
                 "height": h,
                 "base_height": 0,
                 "name": name,
+                "description": "<strong>"+name+"</strong><p>Water usage: <i>"+h+"</i></p>",
                 "color": rand
               },
-              "id": name+i+'_'+j
+              "id": geographicRegion
           })
           j += 1
         })
@@ -72,9 +77,10 @@ map.on('load', function () {
               "height": h,
               "base_height": 0,
               "name": name,
+              "description": "<strong>"+name+"</strong><p>Water usage: <i>"+h+"</i></p>",
               "color": rand
             },
-            "id": name+i
+            "id": geographicRegion
         })
       }
     }
@@ -107,8 +113,32 @@ map.on('load', function () {
             }
         }
     })
+
+    map.on('click', function (e) {
+        var features = map.queryRenderedFeatures(e.point, { layers: ['counties-extrusion'] });
+
+        if (!features.length) {
+            return;
+        }
+
+        var feature = features[0];
+
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        var popup = new mapboxgl.Popup()
+            .setLngLat(map.unproject(e.point))
+            .setHTML(feature.properties.description)
+            .addTo(map);
+    });
+
+    // Use the same approach as above to indicate that the symbols are clickable
+    // by changing the cursor style to 'pointer'.
+    map.on('mousemove', function (e) {
+        var features = map.queryRenderedFeatures(e.point, { layers: ['counties-extrusion'] });
+        map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+    });
   });
-});
+}
 
 $(document).ready(function() {
   $(".btn-circle").click(function (event) {
@@ -117,5 +147,8 @@ $(document).ready(function() {
     let year = $(this).data("year")
     $(this).attr("disabled", "disabled")
     $(this).attr("class", "btn btn-primary btn-circle")
+    map.removeSource("countiesData")
+    map.removeLayer("counties-extrusion")
+    updateMapLayers()
   })
 })

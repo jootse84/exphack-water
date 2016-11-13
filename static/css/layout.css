@@ -88,3 +88,15 @@
   background: #f5a623;
 }
 
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: rgba(176, 176, 176, 0.75) !important;
+}
+
+.mapboxgl-popup-content {
+  background-color: rgba(176, 176, 176, 0.75) !important;
+}
