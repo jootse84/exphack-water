@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <!-- script src="{% static 'bower_components/mapbox-gl-js/mapbox-gl.js' %}"></script -->
+    
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.27.0/mapbox-gl.js'></script>
+    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <link href="{% static 'css/layout.css' %}" rel='stylesheet' />
+    <link href="{% static 'bower_components/mapbox-gl-js/mapbox-gl.css' %}" rel='stylesheet' />
+    <link href="{% static 'css/bootstrap.min.css' %}" rel='stylesheet' />
+    <link href="{% static 'css/stepwizard.css' %}" rel='stylesheet' />
+    <link href="{% static 'css/checkbox.css' %}" rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+
+
+<div id='menu-left'>
+  <div class='top'>
+    <hr/>
+    <h4>United States Water Usage By County</h4>
+    <b class='subtitle-menu'>Water withdrawal in million of gallons</b>
+
+    <div class="checkbox checkbox-0-200 first">
+      <input id="checkbox2" type="checkbox" checked="">
+      <label for="checkbox2">
+        0 - 200 Mgal / day
+      </label>
+    </div>
+    <div class="checkbox checkbox-201-500">
+      <input id="checkbox3" type="checkbox" checked="">
+      <label for="checkbox3">
+        201 - 500 Mgal / day
+      </label>
+    </div>
+    <div class="checkbox checkbox-501-1000">
+      <input id="checkbox4" type="checkbox" checked="">
+      <label for="checkbox4">
+        501 - 1000 Mgal / day
+      </label>
+    </div>
+    <div class="checkbox checkbox-1001-2000">
+      <input id="checkbox5" type="checkbox" checked="">
+      <label for="checkbox5">
+        1001 - 2000 Mgal / day
+      </label>
+    </div>
+    <div class="checkbox checkbox-2001-6300">
+      <input id="checkbox6" type="checkbox" checked="">
+      <label for="checkbox6">
+        2001 - 6300 Mgal / day
+      </label>
+    </div>
+
+  </div>
+  <div class="bottom">
+    <hr/>
+    <b>Filter Water Usage By Category</b>
+    <div class="checkbox checkbox-std first">
+      <input id="checkbox21" type="checkbox" checked="">
+      <label for="checkbox21">
+        Public Supply
+      </label>
+    </div>
+    <div class="checkbox checkbox-std checkbox-tab">
+      <input id="checkbox22" type="checkbox" checked="">
+      <label for="checkbox22">
+        Domestic
+      </label>
+    </div>
+    <div class="checkbox checkbox-std checkbox-tab">
+      <input id="checkbox23" type="checkbox" checked="">
+      <label for="checkbox23">
+        Industrial
+      </label>
+    </div>
+    <div class="checkbox checkbox-std">
+      <input id="checkbox24" type="checkbox" checked="">
+      <label for="checkbox24">
+        Irrigation
+      </label>
+    </div>
+    <div class="checkbox checkbox-std">
+      <input id="checkbox25" type="checkbox" checked="">
+      <label for="checkbox25">
+        Livestock
+      </label>
+    </div>
+    <div class="checkbox checkbox-std">
+      <input id="checkbox26" type="checkbox" checked="">
+      <label for="checkbox26">
+        Aquaculture
+      </label>
+    </div>
+    <div class="checkbox checkbox-std">
+      <input id="checkbox27" type="checkbox" checked="">
+      <label for="checkbox27">
+        Mining
+      </label>
+    </div>
+    <div class="checkbox checkbox-std">
+      <input id="checkbox28" type="checkbox" checked="">
+      <label for="checkbox28">
+        Thermoelectronic
+      </label>
+    </div>
+  </div>
+</div>
+
+<div id='menu'>
+<div class='menu-left'>
+  <h4>Timeline</h4>
+  <small>Select year to change</small>
+</div>
+<div class='menu-right'>
+<div class="stepwizard">
+    <div class="stepwizard-row">
+        <div class="stepwizard-step">
+            <button data-year="1985" type="button" class="btn btn-default btn-circle"></button>
+            <p>1985</p>
+        </div>
+        <div class="stepwizard-step">
+            <button data-year="1990" type="button" class="btn btn-default btn-circle"></button>
+            <p>1990</p>
+        </div> 
+        <div class="stepwizard-step">
+            <button data-year="1995" type="button" class="btn btn-default btn-circle"></button>
+            <p>1995</p>
+        </div>
+        <div class="stepwizard-step">
+            <button data-year="2000" type="button" class="btn btn-primary btn-circle" disabled="disabled"></button>
+            <p>2000</p>
+        </div>
+        <div class="stepwizard-step">
+            <button data-year="2005" type="button" class="btn btn-default btn-circle"></button>
+            <p>2005</p>
+        </div> 
+        <div class="stepwizard-step">
+            <button data-year="2010" type="button" class="btn btn-default btn-circle"></button>
+            <p>2010</p>
+        </div>
+        <div class="stepwizard-step">
+            <button data-year="2015" type="button" class="btn btn-default btn-circle"></button>
+            <p>2015</p>
+        </div>
+        <div class="stepwizard-step">
+            <button data-year="2020" type="button" class="btn btn-default btn-circle"></button>
+            <p>2020</p>
+        </div> 
+        <div class="stepwizard-step">
+            <button data-year="2025" type="button" class="btn btn-default btn-circle"></button>
+            <p>2025</p>
+        </div>
+        <div class="stepwizard-step">
+            <button data-year="2030" type="button" class="btn btn-default btn-circle"></button>
+            <p>2030</p>
+        </div>
+        <div class="stepwizard-step">
+            <button data-year="2035" type="button" class="btn btn-default btn-circle"></button>
+            <p>2035</p>
+        </div> 
+        <div class="stepwizard-step">
+            <button data-year="2040" type="button" class="btn btn-default btn-circle"></button>
+            <p>2040</p>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<script src="{% static 'src/index.js' %}"></script>
+
+</body>
+</html>
